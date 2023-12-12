@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/hooks/authHook';
 import { useCartStore } from '@/hooks/cartHook';
-import { Button, Label, Navbar } from 'flowbite-react';
+import { Button, Navbar } from 'flowbite-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';

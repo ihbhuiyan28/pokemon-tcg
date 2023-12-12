@@ -1,46 +1,19 @@
-import { QueryKeys } from '@/enums';
 import { useCartStore } from '@/hooks/cartHook';
 import { usePokemonSets } from '@/hooks/pokemonHook';
-import { GetAllPokemons, GetPokemonById } from '@/services/pokemons.services';
-import { DehydratedState, QueryClient, dehydrate } from '@tanstack/react-query';
-import { GetServerSidePropsContext, GetStaticPaths, GetStaticProps } from 'next';
 import { useState } from 'react';
 import { PageNotFound } from '../NotFound';
 import Image from 'next/image';
 import { Button, Modal } from 'flowbite-react';
 import { Set } from 'pokemon-tcg-sdk-typescript/dist/sdk';
 
-// export async function getServerSideProps(context: GetServerSidePropsContext): Promise<{ props: { dehydratedStates: DehydratedState } }> {
-//     const queryClient = new QueryClient();
-
-//     await queryClient.prefetchQuery({
-//         queryKey: [QueryKeys.CardSets],
-//         queryFn: async function () {
-//             const pokemonSets = await GetAllPokemons();
-//             return pokemonSets;
-//         }
-//     });
-
-//     return {
-//         props: {
-//             dehydratedStates: dehydrate(queryClient)
-//         }
-//     };
-// }
-
-
-
-
-
 export function Pokemons() {
-    const { data, isError, isLoading } = usePokemonSets();
+    const { data, isError } = usePokemonSets();
+    console.log(data);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [modalSet, setModalSet] = useState<Set>();
     const { addToCart } = useCartStore();
 
     if (isError) return <PageNotFound />
-
-    //if (isLoading) return <Loading />
 
     return (
         <>

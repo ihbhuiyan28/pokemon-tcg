@@ -1,6 +1,6 @@
 import { Pokemons } from '@/components/Pokemons';
 import { QueryKeys } from '@/enums';
-import { GetAllPokemons, GetPokemonById } from '@/services/pokemons.services';
+import { GetAllPokemons } from '@/services/pokemons.services';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticProps } from 'next';
 
@@ -10,14 +10,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
   await queryClient.prefetchQuery({
     queryKey: [QueryKeys.CardSets],
     queryFn: async function () {
-      const _allPokemons = GetAllPokemons();
+      const _allPokemons = await GetAllPokemons();
       return _allPokemons;
     }
   });
 
   return {
     props: {
-      dehydratedStates: dehydrate(queryClient)
+      dehydratedState: dehydrate(queryClient)
     },
     revalidate: 5
   }
