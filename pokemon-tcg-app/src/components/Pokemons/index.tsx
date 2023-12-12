@@ -8,7 +8,6 @@ import { Set } from 'pokemon-tcg-sdk-typescript/dist/sdk';
 
 export function Pokemons() {
     const { data, isError } = usePokemonSets();
-    console.log(data);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [modalSet, setModalSet] = useState<Set>();
     const { addToCart } = useCartStore();
