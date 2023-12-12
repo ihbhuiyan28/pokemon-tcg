@@ -17,6 +17,7 @@ export default function CartPage() {
                                 return (
                                     <div key={id} className="border">
                                         <Image
+                                            unoptimized={true}
                                             src={`${images.logo}`}
                                             alt={`${name}`}
                                             height={96}

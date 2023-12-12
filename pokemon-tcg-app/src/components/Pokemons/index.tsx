@@ -87,6 +87,7 @@ export function Pokemons() {
                         return (
                             <div key={id} className="border flex flex-col items-center justify-center py-2 shadow-lg">
                                 <Image
+                                    unoptimized={true}
                                     className="h-36 w-60"
                                     src={`${images.logo}`}
                                     alt={`${name}`}
@@ -114,6 +115,7 @@ export function Pokemons() {
                     <Modal.Body>
                         <div className="flex flex-col items-center justify-center space-y-6">
                             <Image
+                                unoptimized={true}
                                 className="h-36 w-60"
                                 src={`${modalSet?.images.logo}`}
                                 alt={`${modalSet?.name}`}
@@ -128,7 +130,7 @@ export function Pokemons() {
                         </div>
                     </Modal.Body>
                     <Modal.Footer className="flex flex-row justify-end items-end">
-                        <Button className="bg-rose-500 rounded text-white" onClick={() => {addToCart(modalSet); setOpenModal(false);}}>Add to Cart</Button>
+                        <Button className="bg-rose-500 rounded text-white" onClick={() => { addToCart(modalSet); setOpenModal(false); }}>Add to Cart</Button>
                         <Button className="bg-blue-500 rounded text-white" onClick={() => setOpenModal(false)}>Close</Button>
                     </Modal.Footer>
                 </Modal>

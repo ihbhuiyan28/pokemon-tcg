@@ -18,7 +18,7 @@ export function NavbarLayout() {
     return (
         <Navbar border className="bg-blue-500">
             <Navbar.Brand as={Link} href='/'>
-                <Image src={`/pokeball.png`} alt='pokeball' width={80} height={80} />
+                <Image unoptimized={true} src={`/pokeball.png`} alt='pokeball' width={80} height={80} />
                 <span className="font-semibold ml-4 text-2xl text-white">PokemonTCG</span>
             </Navbar.Brand>
             <div className="grid grid-cols-2 gap-2 w-38">
