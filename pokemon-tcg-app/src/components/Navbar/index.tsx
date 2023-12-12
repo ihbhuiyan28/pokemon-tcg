@@ -3,6 +3,7 @@ import { useCartStore } from '@/hooks/cartHook';
 import { Button, Label, Navbar } from 'flowbite-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 function CartLabel({ item }: { item: number }) {
     if (item === 0) return <></>
@@ -12,8 +13,15 @@ function CartLabel({ item }: { item: number }) {
 }
 
 export function NavbarLayout() {
-    const { username, setUsername } = useAuthStore();
+    const { username, setUsername, setPassword } = useAuthStore();
     const { count } = useCartStore();
+    
+    useEffect(() => {
+        const _username = localStorage.getItem('username');
+        const _password = localStorage.getItem('password');
+        setUsername(_username || '');
+        setPassword(_password || '');
+    }, [])
 
     return (
         <Navbar border className="bg-blue-500">
@@ -35,7 +43,7 @@ export function NavbarLayout() {
                     }
                 </Button>
                 {
-                    username === 'codecamp' && <Button className="bg-blue-500 rounded text-white" onClick={() => setUsername('')}>Sign out</Button>
+                    username === 'codecamp' && <Button className="bg-blue-500 rounded text-white" onClick={() => {localStorage.clear(); setUsername(''); setPassword(''); }}>Sign out</Button>
                 }
             </div>
         </Navbar>

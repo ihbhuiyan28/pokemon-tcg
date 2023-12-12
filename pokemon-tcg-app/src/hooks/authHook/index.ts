@@ -7,3 +7,4 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     setUsername: (username: string) => set({ username }),
     setPassword: (password: string) => set({ password })
 }));
+

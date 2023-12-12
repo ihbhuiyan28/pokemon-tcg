@@ -28,45 +28,9 @@ import { Set } from 'pokemon-tcg-sdk-typescript/dist/sdk';
 //     };
 // }
 
-export const getStaticPaths: GetStaticPaths = async (query) => {
-    const _getAllPokemons = await GetAllPokemons();
-    const tempPaths = _getAllPokemons.map(x => x.id);
-    const tempParams: { params: { pokemonId: string } }[] = [];
 
-    tempPaths.forEach((path) => {
-        tempParams.push({
-            params: {
-                pokemonId: path
-            }
-        });
-    });
 
-    console.log(tempPaths, "tempPaths");
 
-    return {
-        paths: tempParams.splice(0, 5),
-        fallback: true
-    }
-}
-
-export const getStaticProps: GetStaticProps = async (context) => {
-    const queryClient = new QueryClient();
-
-    await queryClient.prefetchQuery({
-        queryKey: [QueryKeys.CardSet],
-        queryFn: async function () {
-            const _getPokemonById = GetPokemonById(context.params?.pokemonId as string);
-            return _getPokemonById;
-        }
-    });
-
-    return {
-        props: {
-            dehydratedStates: dehydrate(queryClient)
-        },
-        revalidate: 5
-    }
-}
 
 export function Pokemons() {
     const { data, isError, isLoading } = usePokemonSets();

@@ -2,6 +2,7 @@ import { useAuthStore } from '@/hooks/authHook';
 import { ISignin } from '@/types';
 import { Button, Label, TextInput } from 'flowbite-react';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export default function SigninPage() {
@@ -12,11 +13,17 @@ export default function SigninPage() {
     const onSubmit: SubmitHandler<ISignin> = ({ username, password }) => {
         setUsername(username);
         setPassword(password);
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
     };
 
     if (username === 'codecamp' && password === '123') {
         router.push('/');
     }
+
+    useEffect(() => {
+        
+    }, [username, password]);
 
     return (
         <div className="grid place-items-center">
