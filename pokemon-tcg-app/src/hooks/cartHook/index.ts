@@ -1,16 +1,6 @@
+import { ICartItem, ICartStore } from "@/types";
 import { Set } from "pokemon-tcg-sdk-typescript/dist/sdk";
 import { create } from "zustand";
-
-interface ICartItem extends Set {
-    count: number;
-}
-
-interface ICartStore {
-    cart: ICartItem[],
-    count: () => number,
-    addToCart: (_set?: Set) => void;
-    removeCart: (id: string) => void;
-}
 
 function updateCart(_set: Set, cart: ICartItem[]): ICartItem[] {
     const cartItem = { ..._set, count: 1 } as ICartItem;
@@ -44,22 +34,22 @@ function removeCart(id: string, cart: ICartItem[]): ICartItem[] {
 }
 
 export const useCartStore = create<ICartStore>((set, get) => ({
-    cart: [],
+    carts: [],
     count: () => {
-        const { cart } = get();
-        if (cart.length) {
-            return cart.map(item => item.count).reduce((prev, curr) => prev + curr);
+        const { carts } = get();
+        if (carts.length) {
+            return carts.map(item => item.count).reduce((prev, curr) => prev + curr);
         }
         return 0;
     },
-    addToCart: (_set?: Set) => {
-        const { cart } = get();
-        const updatedCart = updateCart(_set as Set, cart);
-        set({ cart: updatedCart });
+    addToCart: (_set) => {
+        const { carts } = get();
+        const updatedCart = updateCart(_set, carts);
+        set({ carts: updatedCart });
     },
     removeCart: (id: string) => {
-        const { cart } = get();
-        const updatedCart = removeCart(id, cart);
-        set({ cart: updatedCart });
+        const { carts } = get();
+        const updatedCart = removeCart(id, carts);
+        set({ carts: updatedCart });
     }
 }));

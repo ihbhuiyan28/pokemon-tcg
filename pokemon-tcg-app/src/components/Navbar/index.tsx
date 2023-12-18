@@ -15,7 +15,7 @@ function CartLabel({ item }: { item: number }) {
 export function NavbarLayout() {
     const { username, setUsername, setPassword } = useAuthStore();
     const { count } = useCartStore();
-    
+
     useEffect(() => {
         const _username = localStorage.getItem('username');
         const _password = localStorage.getItem('password');
@@ -43,7 +43,18 @@ export function NavbarLayout() {
                     }
                 </Button>
                 {
-                    username === 'codecamp' && <Button className="bg-blue-500 rounded text-white" onClick={() => {localStorage.clear(); setUsername(''); setPassword(''); }}>Sign out</Button>
+                    username === 'codecamp' &&
+                    <Button
+                        className="bg-blue-500 rounded text-white"
+                        onClick={
+                            () => {
+                                localStorage.clear();
+                                setUsername('');
+                                setPassword('');
+                            }
+                        }>
+                        Sign out
+                    </Button>
                 }
             </div>
         </Navbar>

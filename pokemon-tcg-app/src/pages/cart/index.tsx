@@ -3,16 +3,16 @@ import { Button } from "flowbite-react";
 import Image from "next/image";
 
 export default function CartPage() {
-    const { cart, removeCart } = useCartStore();
+    const { carts, removeCart } = useCartStore();
 
     return (
         <>
             {
-                cart.length === 0 ? <span>No items in cart yet!</span> :
+                carts.length === 0 ? <span>No items in cart yet!</span> :
                     <div className="border flex flex-col gap-2">
                         {
-                            cart &&
-                            cart.map((item) => {
+                            carts &&
+                            carts.map((item) => {
                                 const { id, images, name } = item;
                                 return (
                                     <div key={id} className="border">
