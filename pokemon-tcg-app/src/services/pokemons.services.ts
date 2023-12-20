@@ -10,7 +10,13 @@ async function GetPokemonById(pokemonId: string) {
     return _getPokemonById;
 }
 
+async function EditSetName(pokemonId: any, setName: string) {
+    console.log('updated to ', setName);
+    return { Message: "Hello World!" };
+}
+
 export {
     GetAllPokemons,
-    GetPokemonById
+    GetPokemonById,
+    EditSetName
 }

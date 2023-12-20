@@ -11,9 +11,13 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <HydrationBoundary state={pageProps.dehydratedState}>
-        <NavbarLayout />
-        <Component {...pageProps} />
-        <FooterLayout />
+        <div className="flex flex-col min-h-screen">
+          <NavbarLayout />
+          <div className="flex-grow">
+            <Component {...pageProps} />
+          </div>
+          <FooterLayout />
+        </div>
       </HydrationBoundary>
     </QueryClientProvider>
   );

@@ -5,12 +5,13 @@ import { PageNotFound } from '../NotFound';
 import Image from 'next/image';
 import { Button, Modal } from 'flowbite-react';
 import { Set } from 'pokemon-tcg-sdk-typescript/dist/sdk';
-import { ICartItem } from '@/types';
+import Link from 'next/link';
 
 export function Pokemons() {
     const { data, isError } = usePokemonSets();
-    const { carts, addToCart } = useCartStore();
+    const { addToCart } = useCartStore();
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [modalState, setModalState] = useState<Set>();
 
     if (isError) return <PageNotFound />
 
@@ -22,20 +23,25 @@ export function Pokemons() {
                         const { id, images, name } = pokemon;
                         return (
                             <div key={id} className="border flex flex-col items-center justify-center py-2 shadow-lg">
-                                <Image
-                                    unoptimized={true}
-                                    className="h-36 w-60"
-                                    src={`${images.logo}`}
-                                    alt={`${name}`}
-                                    height={120}
-                                    width={180}
-                                />
+                                <Link
+                                    href={`/pokemons/${id}`}
+                                >
+                                    <Image
+                                        unoptimized={true}
+                                        className="h-36 w-60"
+                                        src={`${images.logo}`}
+                                        alt={`${name}`}
+                                        height={120}
+                                        width={180}
+                                    />
+                                </Link>
                                 <p className="font-semibold text-center">{name}</p>
                                 <Button
                                     className="bg-blue-500 mt-4"
                                     onClick={() => {
                                         setOpenModal(true);
-                                        carts.push(pokemon as ICartItem);
+                                        setModalState(pokemon);
+                                        //carts.push(pokemon as ICartItem);
                                     }}
                                 >
                                     Quick View
@@ -49,37 +55,43 @@ export function Pokemons() {
                 openModal &&
                 <Modal show={openModal} onClose={() => setOpenModal(false)}>
                     <Modal.Body>
-                        <div className="flex flex-col items-center justify-center space-y-6">
-                            <Image
-                                unoptimized={true}
-                                className="h-36 w-60"
-                                src={`${carts[0].images.logo}`}
-                                alt={`${carts[0].name}`}
-                                height={120}
-                                width={180}
-                            />
-                            <p className="font-semibold text-center">Name: {carts[0].name}</p>
-                            <p className="font-semibold text-center">Series: {carts[0].series}</p>
-                            <p className="font-semibold text-center">Total: {carts[0].total}</p>
-                            <p className="font-semibold text-center">PTCGO Code: {carts[0].ptcgoCode}</p>
-                            <p className="font-semibold text-center">Release Date: {carts[0].releaseDate}</p>
+                        <div>
+                            <div>
+                                <Image
+                                    unoptimized={true}
+                                    className="h-36 w-60"
+                                    src={`${modalState?.images.logo}`}
+                                    alt={`${modalState?.name}`}
+                                    height={120}
+                                    width={180}
+                                />
+                            </div>
+                            <div>{modalState?.name}</div>
+                            <div>{modalState?.series}</div>
+                            <div>{modalState?.total}</div>
+                            <div>{modalState?.updatedAt}</div>
                         </div>
-                    </Modal.Body>
-                    <Modal.Footer className="flex flex-row justify-end items-end">
-                        <Button
-                            className="bg-rose-500 rounded text-white"
-                            onClick={
-                                () => {
-                                    addToCart(carts[0] as Set);
+                        <Modal.Footer>
+                            <button
+                                type="button"
+                                className="bg-blue-500 p-3 text-white rounded"
+                                onClick={() => {
+                                    addToCart(modalState as Set);
                                     setOpenModal(false);
-                                    // localStorage.setItem('modalSet', JSON.stringify(cart.push(modalSet as ICartItem)));
-                                }
-                            }
-                        >
-                            Add to Cart
-                        </Button>
-                        <Button className="bg-blue-500 rounded text-white" onClick={() => setOpenModal(false)}>Close</Button>
-                    </Modal.Footer>
+                                }}
+                            >
+                                Add to Cart
+                            </button>
+                            <button
+                                type="button"
+                                className="bg-red-500 p-3 text-white rounded"
+                                onClick={
+                                    () => setOpenModal(false)
+                                }>
+                                Close
+                            </button>
+                        </Modal.Footer>
+                    </Modal.Body>
                 </Modal>
             }
         </>
